@@ -9,22 +9,39 @@
   <link rel="apple-touch-icon" href="https://img.icons8.com/color/180/school.png">
 
   <style>
-    body { font-family: -apple-system, system-ui, sans-serif; background: #f2f2f7; margin: 0; padding: 20px; padding-top: 50px; color: #1c1c1e; }
+    body { font-family: -apple-system, system-ui, sans-serif; background: #f2f2f7; margin: 0; padding: 20px; padding-top: 50px; color: #1c1c1e; padding-bottom: 80px; }
     
     .header { text-align: center; margin-bottom: 20px; }
     .header h3 { margin: 0; font-size: 1.6rem; letter-spacing: -0.5px; }
     .sub-header { font-size: 0.9rem; color: #8e8e93; font-weight: 500; margin-top: 5px; }
     
-    /* Toggle Switch */
-    .toggles { background: #e5e5ea; padding: 4px; border-radius: 12px; display: flex; margin-bottom: 24px; }
+    /* Toggles */
+    .toggles { background: #e5e5ea; padding: 4px; border-radius: 12px; display: flex; margin-bottom: 20px; }
     .toggle-btn { flex: 1; border: none; background: transparent; padding: 12px; border-radius: 9px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: 0.2s; color: #636366; }
     .toggle-btn.active { background: white; color: #000; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+
+    /* --- NEW: AUDIBLE / SEARCH BAR --- */
+    .audible-container { background: white; padding: 15px; border-radius: 16px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+    .search-wrapper { display: flex; gap: 10px; margin-bottom: 12px; }
+    .search-input { 
+      flex: 1; padding: 10px 12px; font-size: 1rem; border: 1px solid #e5e5ea; 
+      border-radius: 10px; background: #f9f9f9; outline: none;
+    }
+    .search-go { background: #007aff; color: white; border: none; padding: 0 15px; border-radius: 10px; font-weight: 600; cursor: pointer; }
     
-    /* Day Card */
-    .day-card { background: transparent; margin-bottom: 30px; }
+    .chips-row { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 2px; }
+    .chip { 
+      white-space: nowrap; padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; border: none; cursor: pointer; 
+      display: flex; align-items: center; gap: 5px;
+    }
+    .chip-energy { background: #fff7ed; color: #c2410c; }
+    .chip-quiet  { background: #eff6ff; color: #1d4ed8; }
+    .chip-gemini { background: #f5f3ff; color: #7c3aed; border: 1px solid #ddd6fe; }
+
+    /* Day Cards */
+    .day-card { margin-bottom: 40px; }
     .day-title { font-size: 1.4rem; font-weight: 800; color: #1c1c1e; margin-bottom: 12px; padding-left: 5px; }
     
-    /* Activity Rows */
     .activity-row { 
       background: white; border-radius: 16px; padding: 16px; margin-bottom: 12px; 
       box-shadow: 0 2px 8px rgba(0,0,0,0.03); display: flex; align-items: flex-start; gap: 14px;
@@ -35,37 +52,29 @@
       display: flex; align-items: center; justify-content: center; 
       background: #f2f2f7; border-radius: 10px; flex-shrink: 0;
     }
-    
     .content-box { flex: 1; }
-    
     .label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; display: block; }
     .morning-label { color: #d97706; }
-    .word-label    { color: #db2777; } /* Pink for Words */
-    .school-label  { color: #2563eb; }
+    .word-label { color: #db2777; }
+    .school-label { color: #2563eb; }
     .bedtime-label { color: #7c3aed; }
-    
     .title { font-size: 1rem; font-weight: 600; margin-bottom: 4px; color: #000; }
     .desc { font-size: 0.9rem; color: #666; line-height: 1.4; }
     
-    /* Flashcards Styling */
     .flashcard-container { display: flex; gap: 10px; margin-top: 5px; }
-    .flashcard { 
-      background: #fce7f3; color: #be185d; 
-      padding: 6px 16px; border-radius: 8px; 
-      font-size: 1.2rem; font-weight: 800; letter-spacing: 0.5px;
-      border: 2px solid #fbcfe8;
-    }
-    .sound-card { /* Blue style for Eric's sounds */
-      background: #e0f2fe; color: #0284c7; border-color: #bae6fd;
-    }
+    .flashcard { background: #fce7f3; color: #be185d; padding: 6px 16px; border-radius: 8px; font-size: 1.2rem; font-weight: 800; border: 2px solid #fbcfe8; }
+    .sound-card { background: #e0f2fe; color: #0284c7; border-color: #bae6fd; }
 
-    .btn-link {
-      display: inline-block; margin-top: 10px; padding: 8px 14px;
-      background: #eff6ff; color: #007aff; border-radius: 8px;
-      text-decoration: none; font-weight: 600; font-size: 0.85rem;
-    }
+    .btn-link { display: inline-block; margin-top: 10px; padding: 8px 14px; background: #eff6ff; color: #007aff; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.85rem; }
     .btn-game { background: #ecfdf5; color: #10b981; }
-    
+
+    /* Notification for Copy */
+    #toast { visibility: hidden; min-width: 250px; background-color: #333; color: #fff; text-align: center; border-radius: 8px; padding: 16px; position: fixed; z-index: 1; left: 50%; bottom: 30px; transform: translateX(-50%); font-size: 0.9rem; }
+    #toast.show { visibility: visible; -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
+    @-webkit-keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
+    @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
+    @-webkit-keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
+    @keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
   </style>
 </head>
 <body>
@@ -81,118 +90,135 @@
       <button id="btn-eric" class="toggle-btn" onclick="render('eric')">👦 Eric</button>
     </div>
 
+    <div class="audible-container">
+      <div class="search-wrapper">
+        <input type="text" id="searchInput" class="search-input" placeholder="Need an audible? (e.g. 'Legos')">
+        <button class="search-go" onclick="runSearch()">Go</button>
+      </div>
+      <div class="chips-row">
+        <button class="chip chip-energy" onclick="runAudible('active')">⚡ High Energy</button>
+        <button class="chip chip-quiet" onclick="runAudible('quiet')">🛋️ Quiet Time</button>
+        <button class="chip chip-gemini" onclick="runGemini()">🧠 Ask Gemini</button>
+      </div>
+    </div>
+
     <div id="content"></div>
   </div>
 
+  <div id="toast">Prompt copied! Opening Gemini...</div>
+
   <script>
+    // --- CONTEXT DATA ---
+    const context = {
+      claire: { 
+        age_desc: "5 year old Kindergarten student", 
+        curriculum: "Needham Public Schools",
+        style: "educational standards based"
+      },
+      eric: { 
+        age_desc: "3 year old preschooler", 
+        curriculum: "Montessori Primary",
+        style: "hands-on Montessori practical life"
+      }
+    };
+
     const data = {
       claire: {
         school: "Needham Public Schools",
         schedule: [
-          {
-            day: "Monday",
-            morning: { title: "Kite Breakfast", text: "Ask: 'If we made a kite today, what shape would it be?'" },
-            words: ["THE", "OF"],
-            school: { title: "Author Study: Grace Lin", link: "https://www.youtube.com/results?search_query=grace+lin+kite+flying+read+aloud", btn: "▶️ Find Video" },
-            bedtime: { title: "Moon Phase", text: "Read 'Big Mooncake for Little Star'. Look at the real moon." }
-          },
-          {
-            day: "Tuesday",
-            morning: { title: "Step Counter", text: "Count steps from bed to the breakfast table." },
-            words: ["AND", "A"],
-            school: { title: "Math: Counting & 10s", link: "https://www.youtube.com/results?search_query=jack+hartmann+count+to+100", btn: "▶️ Count to 100 Song" },
-            bedtime: { title: "Shadow Shapes", text: "Use a flashlight. Can she make a triangle shadow?" }
-          },
-          {
-            day: "Wednesday",
-            morning: { title: "Pattern Hunt", text: "Find 3 squares and 1 circle in the kitchen." },
-            words: ["TO", "IN"],
-            school: { title: "Math: Pattern Blocks", link: "https://apps.mathlearningcenter.org/pattern-shapes/", btn: "🎮 Open Pattern App", isGame: true },
-            bedtime: { title: "Dragon Luck", text: "Grace Lin's dragons are lucky. 'What would you name a pet dragon?'" }
-          },
-          {
-            day: "Thursday",
-            morning: { title: "Sight Word Hide", text: "Hide 'IS' and 'YOU' notes on the fridge." },
-            words: ["IS", "YOU"],
-            school: { title: "Phonics: Digraphs", link: "https://www.youtube.com/results?search_query=alphablocks+digraphs", btn: "▶️ Watch Alphablocks" },
-            bedtime: { title: "Gratitude", text: "Ask: 'Who is one friend you helped today?'" }
-          },
-          {
-            day: "Friday",
-            morning: { title: "Fish Weather", text: "Is it cold enough for fish to freeze outside?" },
-            words: ["THAT", "IT"],
-            school: { title: "Science: Hibernation", link: "https://www.youtube.com/results?search_query=scishow+kids+hibernation+fish", btn: "▶️ Fish Video" },
-            bedtime: { title: "Bear Breath", text: "Visualize being a bear in a cave. Deep breathing." }
-          }
+          { day: "Monday", theme: "Kites & Shapes", morning: { title: "Kite Breakfast", text: "Ask: 'What shape is a kite?'" }, words: ["THE", "OF"], school: { title: "Author Study: Grace Lin", link: "https://www.youtube.com/results?search_query=grace+lin+kite+flying+read+aloud", btn: "▶️ Find Video" }, bedtime: { title: "Moon Phase", text: "Read 'Big Mooncake for Little Star'." } },
+          { day: "Tuesday", theme: "Counting", morning: { title: "Step Counter", text: "Count steps to breakfast." }, words: ["AND", "A"], school: { title: "Math: Counting & 10s", link: "https://www.youtube.com/results?search_query=jack+hartmann+count+to+100", btn: "▶️ Count to 100 Song" }, bedtime: { title: "Shadow Shapes", text: "Make triangle shadows." } },
+          { day: "Wednesday", theme: "Pattern Blocks", morning: { title: "Pattern Hunt", text: "Find 3 squares in kitchen." }, words: ["TO", "IN"], school: { title: "Math: Pattern Blocks", link: "https://apps.mathlearningcenter.org/pattern-shapes/", btn: "🎮 Open Pattern App", isGame: true }, bedtime: { title: "Dragon Luck", text: "Name a pet dragon." } },
+          { day: "Thursday", theme: "Phonics", morning: { title: "Sight Word Hide", text: "Hide notes on fridge." }, words: ["IS", "YOU"], school: { title: "Phonics: Digraphs", link: "https://www.youtube.com/results?search_query=alphablocks+digraphs", btn: "▶️ Watch Alphablocks" }, bedtime: { title: "Gratitude", text: "Who did you help today?" } },
+          { day: "Friday", theme: "Hibernation", morning: { title: "Fish Weather", text: "Is it cold enough to freeze?" }, words: ["THAT", "IT"], school: { title: "Science: Hibernation", link: "https://www.youtube.com/results?search_query=scishow+kids+hibernation+fish", btn: "▶️ Fish Video" }, bedtime: { title: "Bear Breath", text: "Visualize being a bear." } }
         ]
       },
       eric: {
         school: "Wellan Montessori",
         schedule: [
-          {
-            day: "Monday",
-            morning: { title: "Penguin Waddle", text: "Walk to kitchen with pillow between knees." },
-            words: ["m", "s"], // Eric gets sounds
-            isSound: true,
-            school: { title: "Culture: Antarctica", link: "https://www.youtube.com/results?search_query=bbc+earth+emperor+penguins+for+kids", btn: "▶️ Real Penguins" },
-            bedtime: { title: "Ice Cave", text: "Build a pillow fort. Whisper like it's a snowy night." }
-          },
-          {
-            day: "Tuesday",
-            morning: { title: "Zipper Drill", text: "Zip jacket 3 times by himself before leaving." },
-            words: ["a", "t"],
-            isSound: true,
-            school: { title: "Story: The Mitten", link: "https://www.youtube.com/results?search_query=the+mitten+jan+brett+read+aloud", btn: "▶️ Read Aloud" },
-            bedtime: { title: "Mitten Act-Out", text: "Hide a bear under his blanket. 'Is there room?'" }
-          },
-          {
-            day: "Wednesday",
-            morning: { title: "Snow Plow", text: "Use a spoon (plow) to clear the cereal bowl road." },
-            words: ["c", "p"],
-            isSound: true,
-            school: { title: "Work: Snow Plows", link: "https://www.youtube.com/results?search_query=real+snow+plow+clearing+roads", btn: "▶️ Watch Plows" },
-            bedtime: { title: "Silence Game", text: "Sit still for 1 min. What tiny sounds can we hear?" }
-          },
-          {
-            day: "Thursday",
-            morning: { title: "Laundry Sort", text: "Match 2 pairs of socks before dad counts to 10." },
-            words: ["r", "f"],
-            isSound: true,
-            school: { title: "Math: Sorting", link: "https://www.toytheater.com/category/math-games/pattern", btn: "🎮 Sorting Game", isGame: true },
-            bedtime: { title: "Soft vs. Hard", text: "Feel object in pillowcase. Hard (ice) or soft (snow)?" }
-          },
-          {
-            day: "Friday",
-            morning: { title: "Sink or Float", text: "Drop one cheerio in milk. Will it sink?" },
-            words: ["i", "n"],
-            isSound: true,
-            school: { title: "Science: Buoyancy", link: "https://www.youtube.com/results?search_query=sink+or+float+experiment+for+kids", btn: "▶️ Experiment Video" },
-            bedtime: { title: "Warm Hands", text: "Hold warm mug. Feel heat transfer (Thermic sense)." }
-          }
+          { day: "Monday", theme: "Penguins", morning: { title: "Penguin Waddle", text: "Walk with pillow between knees." }, words: ["m", "s"], isSound: true, school: { title: "Culture: Antarctica", link: "https://www.youtube.com/results?search_query=bbc+earth+emperor+penguins+for+kids", btn: "▶️ Real Penguins" }, bedtime: { title: "Ice Cave", text: "Pillow fort whisper time." } },
+          { day: "Tuesday", theme: "Winter Clothes", morning: { title: "Zipper Drill", text: "Zip jacket 3 times." }, words: ["a", "t"], isSound: true, school: { title: "Story: The Mitten", link: "https://www.youtube.com/results?search_query=the+mitten+jan+brett+read+aloud", btn: "▶️ Read Aloud" }, bedtime: { title: "Mitten Act-Out", text: "Hide bear under blanket." } },
+          { day: "Wednesday", theme: "Snow Plows", morning: { title: "Snow Plow", text: "Spoon plow cereal road." }, words: ["c", "p"], isSound: true, school: { title: "Work: Snow Plows", link: "https://www.youtube.com/results?search_query=real+snow+plow+clearing+roads", btn: "▶️ Watch Plows" }, bedtime: { title: "Silence Game", text: "Listen for tiny sounds." } },
+          { day: "Thursday", theme: "Sorting", morning: { title: "Laundry Sort", text: "Match socks fast." }, words: ["r", "f"], isSound: true, school: { title: "Math: Sorting", link: "https://www.toytheater.com/category/math-games/pattern", btn: "🎮 Sorting Game", isGame: true }, bedtime: { title: "Soft vs. Hard", text: "Feel object in pillowcase." } },
+          { day: "Friday", theme: "Sink or Float", morning: { title: "Sink or Float", text: "Drop cheerio in milk." }, words: ["i", "n"], isSound: true, school: { title: "Science: Buoyancy", link: "https://www.youtube.com/results?search_query=sink+or+float+experiment+for+kids", btn: "▶️ Experiment Video" }, bedtime: { title: "Warm Hands", text: "Feel heat transfer." } }
         ]
       }
     };
 
+    let currentProfile = 'claire';
+
+    // --- SEARCH LOGIC (The "Audible" Brain) ---
+    function getContextQuery(baseTerm) {
+      const c = context[currentProfile];
+      // Inject Child Age + School Style into every search
+      return `${baseTerm} for ${c.age_desc} ${c.style} activity`;
+    }
+
+    function runSearch() {
+      const input = document.getElementById('searchInput').value;
+      if (!input) return;
+      const query = getContextQuery(input);
+      window.open(`https://www.google.com/search?q=${encodeURIComponent(query)}&tbm=vid`, '_blank');
+    }
+
+    function runAudible(type) {
+      // Find today's theme (Mocking "Monday" for demo, real app uses Date)
+      // We will just grab the first schedule item's theme for the demo
+      const theme = data[currentProfile].schedule[0].theme; 
+      
+      let modifier = "";
+      if (type === 'active') modifier = "active movement games high energy";
+      if (type === 'quiet') modifier = "calm quiet reading coloring";
+      
+      const query = getContextQuery(`${modifier} ${theme}`);
+      window.open(`https://www.google.com/search?q=${encodeURIComponent(query)}&tbm=vid`, '_blank');
+    }
+
+    function runGemini() {
+      const c = context[currentProfile];
+      const theme = data[currentProfile].schedule[0].theme;
+      
+      // Engineer a perfect prompt
+      const prompt = `I need 3 alternative activity ideas for a ${c.age_desc}. 
+      Current School Theme: ${theme}. 
+      Curriculum Style: ${c.curriculum}.
+      Constraints: 10-15 minutes, low prep.
+      Please suggest 1 Active, 1 Quiet, and 1 Creative option.`;
+
+      // Copy to clipboard
+      navigator.clipboard.writeText(prompt).then(() => {
+        showToast();
+        setTimeout(() => {
+          window.open("https://gemini.google.com/app", "_blank");
+        }, 1500);
+      });
+    }
+
+    function showToast() {
+      var x = document.getElementById("toast");
+      x.className = "show";
+      setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+    }
+
+    // --- RENDER LOGIC ---
     function render(profile) {
+      currentProfile = profile;
       document.getElementById('btn-claire').className = `toggle-btn ${profile === 'claire' ? 'active' : ''}`;
       document.getElementById('btn-eric').className = `toggle-btn ${profile === 'eric' ? 'active' : ''}`;
-
-      const p = data[profile];
-      document.getElementById('school-label').innerText = p.school;
+      document.getElementById('school-label').innerText = data[profile].school;
 
       let html = '';
+      const p = data[profile];
 
       p.schedule.forEach(item => {
         const btnClass = item.school.isGame ? "btn-link btn-game" : "btn-link";
-        
-        // Generate Word/Sound Cards
         const wordLabel = item.isSound ? "Sound of the Day" : "Sight Words";
         const cardClass = item.isSound ? "flashcard sound-card" : "flashcard";
         const wordsHtml = item.words.map(w => `<span class="${cardClass}">${w}</span>`).join("");
 
         html += `
           <div class="day-card">
-            <div class="day-title">${item.day}</div>
+            <div class="day-title">${item.day} <span style="font-size:0.8rem; color:#888; font-weight:normal;">(${item.theme})</span></div>
 
             <div class="activity-row">
               <div class="icon-box">☀️</div>
@@ -207,9 +233,7 @@
               <div class="icon-box">👀</div>
               <div class="content-box">
                 <span class="label word-label">${wordLabel}</span>
-                <div class="flashcard-container">
-                  ${wordsHtml}
-                </div>
+                <div class="flashcard-container">${wordsHtml}</div>
               </div>
             </div>
 
@@ -230,11 +254,9 @@
                 <div class="desc">${item.bedtime.text}</div>
               </div>
             </div>
-
           </div>
         `;
       });
-
       document.getElementById('content').innerHTML = html;
     }
 
