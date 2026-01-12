@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Family Learning Hub</title>
+  
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Kids' Hub">
+  <link rel="apple-touch-icon" href="https://img.icons8.com/color/180/school.png">
+
+  <style>
+    /* Premium "App-Like" Styling */
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f2f2f7; margin: 0; padding: 20px; color: #1c1c1e; padding-top: 50px; /* Space for status bar */ }
+    
+    .header { text-align: center; margin-bottom: 24px; }
+    .header h3 { margin: 0 0 5px 0; font-size: 1.6rem; letter-spacing: -0.5px; }
+    .sub-header { font-size: 0.9rem; color: #8e8e93; font-weight: 500; }
+    
+    /* Toggle Switch */
+    .toggles { background: #e5e5ea; padding: 4px; border-radius: 12px; display: flex; margin-bottom: 24px; }
+    .toggle-btn { flex: 1; border: none; background: transparent; padding: 12px; border-radius: 9px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: 0.2s; color: #636366; }
+    .toggle-btn.active { background: white; color: #000; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+    
+    /* Cards */
+    .card { background: white; border-radius: 18px; padding: 22px; margin-bottom: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.04); }
+    .theme-header { border-bottom: 1px solid #f2f2f7; padding-bottom: 12px; margin-bottom: 15px; }
+    .theme-title { font-size: 1.2rem; font-weight: 700; color: #007aff; margin: 0; }
+    
+    /* Action Buttons */
+    .action-btn { 
+      display: flex; align-items: center; justify-content: center;
+      width: 100%; padding: 14px; margin-top: 15px;
+      background: #f2f2f7; color: #007aff; 
+      border-radius: 14px; text-decoration: none; font-weight: 600; font-size: 1rem;
+    }
+    .game-btn { color: #34c759; background: #e8f5e9; } 
+    
+    /* Tags & Text */
+    .day-tag { font-size: 0.7rem; text-transform: uppercase; color: #8e8e93; font-weight: 800; letter-spacing: 0.8px; margin-bottom: 6px; display: block; }
+    .item-title { font-size: 1.2rem; font-weight: 700; margin: 0 0 8px 0; letter-spacing: -0.3px; }
+    .dad-tip { background: #fff9c4; color: #5d4037; font-size: 0.95rem; padding: 14px; border-radius: 12px; margin-top: 15px; line-height: 1.5; }
+    
+    ul { padding-left: 20px; margin: 0; color: #3a3a3c; font-size: 0.95rem; line-height: 1.5; }
+    li { margin-bottom: 8px; }
+  </style>
+</head>
+<body>
+
+  <div id="app">
+    <div class="header">
+      <h3>The Daily Plan</h3>
+      <div id="school-label" class="sub-header">Loading...</div>
+    </div>
+
+    <div class="toggles">
+      <button id="btn-claire" class="toggle-btn active" onclick="render('claire')">👧 Claire</button>
+      <button id="btn-eric" class="toggle-btn" onclick="render('eric')">👦 Eric</button>
+    </div>
+
+    <div id="content"></div>
+  </div>
+
+  <script>
+    // --- REAL-TIME DATA (Source: Mrs. Schwarm / Wellan Primary) ---
+    const data = {
+      claire: {
+        school: "Needham Public Schools (Mrs. Schwarm)",
+        unit: "ELA Unit 4: Author Study (Grace Lin)",
+        goals: ["Retelling 'The Mitten'", "Math: Composing Shapes (Trapezoids)", "Science: Fish Observations"],
+        content: [
+          { 
+            day: "MONDAY (ELA)", 
+            type: "AUTHOR STUDY", 
+            title: "Who is Grace Lin?", 
+            query: "grace lin author read aloud kite flying", 
+            prompt: "Mrs. Schwarm is reading 'Kite Flying'. Ask Claire: 'What ingredients did they use to make the dragon kite?'" 
+          },
+          { 
+            day: "WEDNESDAY (MATH)", 
+            type: "GEOMETRY", 
+            title: "Pattern Block Magic", 
+            url: "https://apps.mathlearningcenter.org/pattern-shapes/", 
+            type_code: "GAME",
+            prompt: "Open this app and ask: 'Can you make a Hexagon (Yellow) using only Triangles (Green)?'" 
+          },
+          { 
+            day: "FRIDAY (SCIENCE)", 
+            type: "OBSERVATION", 
+            title: "Fish & Hibernation", 
+            query: "scishow kids hibernation fish", 
+            prompt: "Claire is observing fish in class. Ask: 'Do fish sleep in the winter like bears?'" 
+          }
+        ]
+      },
+      eric: {
+        school: "Wellan Montessori (Primary)",
+        unit: "Winter: Cultural & Practical Life",
+        goals: ["Geography: Antarctica/Winter Animals", "Practical Life: Snow Plowing", "Sensorial: Hot vs. Cold"],
+        content: [
+          { 
+            day: "MONDAY (CULTURE)", 
+            type: "CONTINENT STUDY", 
+            title: "Animals of Antarctica", 
+            query: "bbc earth emperor penguins for kids", 
+            prompt: "Show him real penguins. Ask: 'How do they keep their egg warm on the ice?' (They balance it on their feet!)" 
+          },
+          { 
+            day: "WEDNESDAY (PRACTICAL LIFE)", 
+            type: "REALITY ACTIVITY", 
+            title: "The Snow Plow Work", 
+            query: "real snow plow clearing roads", 
+            prompt: "Montessori Focus: Give him a tray with flour and a toy car. Can he 'plow' the road clean?" 
+          },
+          { 
+            day: "FRIDAY (SENSORIAL)", 
+            type: "SCIENCE", 
+            title: "Sink or Float?", 
+            query: "sink or float experiment for kids", 
+            prompt: "Wellan Science: Fill a bowl with water. Ask Eric to guess if his Lego will sink or float before dropping it." 
+          }
+        ]
+      }
+    };
+
+    function render(profile) {
+      document.getElementById('btn-claire').className = `toggle-btn ${profile === 'claire' ? 'active' : ''}`;
+      document.getElementById('btn-eric').className = `toggle-btn ${profile === 'eric' ? 'active' : ''}`;
+
+      const p = data[profile];
+      document.getElementById('school-label').innerText = p.school;
+
+      let html = `
+        <div class="card">
+          <div class="theme-header"><h4 class="theme-title">Theme: ${p.unit}</h4></div>
+          <ul>${p.goals.map(g => `<li>${g}</li>`).join('')}</ul>
+        </div>
+      `;
+
+      p.content.forEach(item => {
+        let buttonHtml = '';
+        if (item.type_code === "GAME") {
+          // Direct link for Math Tools
+          buttonHtml = `<a href="${item.url}" target="_blank" class="action-btn game-btn">🎮 Open Tool</a>`;
+        } else {
+          // Safe Search Launcher
+          const safeUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(item.query)}`;
+          buttonHtml = `<a href="${safeUrl}" target="_blank" class="action-btn">▶️ Find "${item.title}"</a>`;
+        }
+
+        html += `
+          <div class="card">
+            <span class="day-tag">${item.day} • ${item.type}</span>
+            <h4 class="item-title">${item.title}</h4>
+            <div class="dad-tip"><strong>💡 Dad Tip:</strong> ${item.prompt}</div>
+            ${buttonHtml}
+          </div>
+        `;
+      });
+
+      document.getElementById('content').innerHTML = html;
+    }
+
+    // Default to Claire
+    render('claire');
+  </script>
+</body>
+</html>
