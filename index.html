@@ -4,79 +4,75 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Family Learning Hub</title>
-  
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="apple-touch-icon" href="https://img.icons8.com/color/180/school.png">
 
   <style>
-    /* --- APP STYLING --- */
-    body { 
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
-      background: #f0f2f5; 
-      margin: 0; 
-      padding: 20px; 
-      padding-top: 50px; /* Safe area for status bar */
-      color: #1c1c1e; 
-    }
+    body { font-family: -apple-system, system-ui, sans-serif; background: #f2f2f7; margin: 0; padding: 20px; padding-top: 50px; color: #1c1c1e; }
     
     .header { text-align: center; margin-bottom: 20px; }
-    .header h3 { margin: 0; font-size: 1.5rem; letter-spacing: -0.5px; }
-    .sub-header { font-size: 0.85rem; color: #8e8e93; font-weight: 500; margin-top: 5px; }
+    .header h3 { margin: 0; font-size: 1.6rem; letter-spacing: -0.5px; }
+    .sub-header { font-size: 0.9rem; color: #8e8e93; font-weight: 500; margin-top: 5px; }
     
-    /* Toggles */
-    .toggles { background: #e4e6eb; padding: 4px; border-radius: 12px; display: flex; margin-bottom: 24px; }
-    .toggle-btn { 
-      flex: 1; border: none; background: transparent; padding: 12px; 
-      border-radius: 9px; font-size: 0.95rem; font-weight: 600; 
-      cursor: pointer; transition: 0.2s; color: #65676b; 
-    }
+    /* Toggle Switch */
+    .toggles { background: #e5e5ea; padding: 4px; border-radius: 12px; display: flex; margin-bottom: 24px; }
+    .toggle-btn { flex: 1; border: none; background: transparent; padding: 12px; border-radius: 9px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: 0.2s; color: #636366; }
     .toggle-btn.active { background: white; color: #000; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
     
-    /* Main Cards */
-    .card { 
-      background: white; border-radius: 16px; padding: 20px; 
-      margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); 
+    /* Day Card */
+    .day-card { background: transparent; margin-bottom: 30px; }
+    .day-title { font-size: 1.4rem; font-weight: 800; color: #1c1c1e; margin-bottom: 12px; padding-left: 5px; }
+    
+    /* Activity Rows */
+    .activity-row { 
+      background: white; border-radius: 16px; padding: 16px; margin-bottom: 12px; 
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03); display: flex; align-items: flex-start; gap: 14px;
     }
     
-    /* Daily Sections */
-    .day-header { 
-      font-size: 1.1rem; font-weight: 800; color: #1c1c1e; 
-      border-bottom: 2px solid #f0f2f5; padding-bottom: 10px; margin-bottom: 15px;
-      display: flex; justify-content: space-between; align-items: center;
+    .icon-box { 
+      font-size: 1.5rem; width: 40px; height: 40px; 
+      display: flex; align-items: center; justify-content: center; 
+      background: #f2f2f7; border-radius: 10px; flex-shrink: 0;
     }
     
-    .section-row { display: flex; gap: 12px; margin-bottom: 18px; }
-    .icon-col { font-size: 1.4rem; padding-top: 2px; }
-    .text-col { flex: 1; }
+    .content-box { flex: 1; }
     
-    .section-label { 
-      font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; 
-      font-weight: 700; display: block; margin-bottom: 4px;
+    .label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; display: block; }
+    .morning-label { color: #d97706; }
+    .word-label    { color: #db2777; } /* Pink for Words */
+    .school-label  { color: #2563eb; }
+    .bedtime-label { color: #7c3aed; }
+    
+    .title { font-size: 1rem; font-weight: 600; margin-bottom: 4px; color: #000; }
+    .desc { font-size: 0.9rem; color: #666; line-height: 1.4; }
+    
+    /* Flashcards Styling */
+    .flashcard-container { display: flex; gap: 10px; margin-top: 5px; }
+    .flashcard { 
+      background: #fce7f3; color: #be185d; 
+      padding: 6px 16px; border-radius: 8px; 
+      font-size: 1.2rem; font-weight: 800; letter-spacing: 0.5px;
+      border: 2px solid #fbcfe8;
     }
-    
-    /* Colors for times of day */
-    .label-morning { color: #d97706; } /* Orange */
-    .label-school  { color: #2563eb; } /* Blue */
-    .label-bedtime { color: #7c3aed; } /* Purple */
-    
-    .content-text { font-size: 0.95rem; line-height: 1.45; color: #333; }
-    
-    /* Buttons */
-    .action-btn { 
-      display: inline-block; margin-top: 8px;
-      padding: 8px 16px; background: #eff6ff; color: #2563eb; 
-      border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.9rem;
+    .sound-card { /* Blue style for Eric's sounds */
+      background: #e0f2fe; color: #0284c7; border-color: #bae6fd;
     }
-    .game-btn { background: #ecfdf5; color: #059669; }
 
+    .btn-link {
+      display: inline-block; margin-top: 10px; padding: 8px 14px;
+      background: #eff6ff; color: #007aff; border-radius: 8px;
+      text-decoration: none; font-weight: 600; font-size: 0.85rem;
+    }
+    .btn-game { background: #ecfdf5; color: #10b981; }
+    
   </style>
 </head>
 <body>
 
   <div id="app">
     <div class="header">
-      <h3>The Daily Plan</h3>
+      <h3>Weekly Plan</h3>
       <div id="school-label" class="sub-header">Loading...</div>
     </div>
 
@@ -89,72 +85,95 @@
   </div>
 
   <script>
-    // --- DATA: Merged Curriculum + Rituals ---
     const data = {
       claire: {
-        school: "Needham Public Schools (Mrs. Schwarm)",
+        school: "Needham Public Schools",
         schedule: [
           {
-            day: "MONDAY",
-            morning: "🪁 **Kite Prep:** Ask Claire: 'If we made a kite today, what shape would it be?' (Prep for Grace Lin book).",
-            school_title: "Author Study: Grace Lin",
-            school_link: "https://www.youtube.com/results?search_query=grace+lin+author+read+aloud+kite+flying",
-            school_btn: "▶️ Find 'Kite Flying' Video",
-            bedtime: "🌙 **Moon Phase:** Look out the window. Is the moon eaten yet? Read *Big Mooncake for Little Star*."
+            day: "Monday",
+            morning: { title: "Kite Breakfast", text: "Ask: 'If we made a kite today, what shape would it be?'" },
+            words: ["THE", "OF"],
+            school: { title: "Author Study: Grace Lin", link: "https://www.youtube.com/results?search_query=grace+lin+kite+flying+read+aloud", btn: "▶️ Find Video" },
+            bedtime: { title: "Moon Phase", text: "Read 'Big Mooncake for Little Star'. Look at the real moon." }
           },
           {
-            day: "WEDNESDAY",
-            morning: "🔺 **Shape Hunt:** While eating breakfast, can she find 3 squares and 1 circle in the kitchen?",
-            school_title: "Math: Pattern Blocks",
-            school_link: "https://apps.mathlearningcenter.org/pattern-shapes/",
-            school_btn: "🎮 Open Pattern App",
-            is_game: true,
-            bedtime: "🐉 **Dragon Luck:** In Grace Lin's books, dragons are lucky. Ask: 'If you had a pet dragon, what would you name him?'"
+            day: "Tuesday",
+            morning: { title: "Step Counter", text: "Count steps from bed to the breakfast table." },
+            words: ["AND", "A"],
+            school: { title: "Math: Counting & 10s", link: "https://www.youtube.com/results?search_query=jack+hartmann+count+to+100", btn: "▶️ Count to 100 Song" },
+            bedtime: { title: "Shadow Shapes", text: "Use a flashlight. Can she make a triangle shadow?" }
           },
           {
-            day: "FRIDAY",
-            morning: "❄️ **Weather Check:** Check the temp. Is it cold enough for fish to freeze? (Intro to hibernation).",
-            school_title: "Science: Fish Hibernation",
-            school_link: "https://www.youtube.com/results?search_query=scishow+kids+hibernation+fish",
-            school_btn: "▶️ Watch Fish Video",
-            bedtime: "😴 **Bear Breath:** 'Close your eyes. Imagine you are a bear in a cave. Deep breath in... hibernate...'"
+            day: "Wednesday",
+            morning: { title: "Pattern Hunt", text: "Find 3 squares and 1 circle in the kitchen." },
+            words: ["TO", "IN"],
+            school: { title: "Math: Pattern Blocks", link: "https://apps.mathlearningcenter.org/pattern-shapes/", btn: "🎮 Open Pattern App", isGame: true },
+            bedtime: { title: "Dragon Luck", text: "Grace Lin's dragons are lucky. 'What would you name a pet dragon?'" }
+          },
+          {
+            day: "Thursday",
+            morning: { title: "Sight Word Hide", text: "Hide 'IS' and 'YOU' notes on the fridge." },
+            words: ["IS", "YOU"],
+            school: { title: "Phonics: Digraphs", link: "https://www.youtube.com/results?search_query=alphablocks+digraphs", btn: "▶️ Watch Alphablocks" },
+            bedtime: { title: "Gratitude", text: "Ask: 'Who is one friend you helped today?'" }
+          },
+          {
+            day: "Friday",
+            morning: { title: "Fish Weather", text: "Is it cold enough for fish to freeze outside?" },
+            words: ["THAT", "IT"],
+            school: { title: "Science: Hibernation", link: "https://www.youtube.com/results?search_query=scishow+kids+hibernation+fish", btn: "▶️ Fish Video" },
+            bedtime: { title: "Bear Breath", text: "Visualize being a bear in a cave. Deep breathing." }
           }
         ]
       },
       eric: {
-        school: "Wellan Montessori (Primary)",
+        school: "Wellan Montessori",
         schedule: [
           {
-            day: "MONDAY",
-            morning: "🐧 **Penguin Walk:** Challenge him to walk to the kitchen with a pillow between his knees (carrying an egg).",
-            school_title: "Culture: Antarctica",
-            school_link: "https://www.youtube.com/results?search_query=bbc+earth+emperor+penguins+for+kids",
-            school_btn: "▶️ See Real Penguins",
-            bedtime: "🧊 **Ice Cave:** Build a quick pillow fort. Crawl inside and whisper like it's a quiet, snowy night."
+            day: "Monday",
+            morning: { title: "Penguin Waddle", text: "Walk to kitchen with pillow between knees." },
+            words: ["m", "s"], // Eric gets sounds
+            isSound: true,
+            school: { title: "Culture: Antarctica", link: "https://www.youtube.com/results?search_query=bbc+earth+emperor+penguins+for+kids", btn: "▶️ Real Penguins" },
+            bedtime: { title: "Ice Cave", text: "Build a pillow fort. Whisper like it's a snowy night." }
           },
           {
-            day: "WEDNESDAY",
-            morning: "🥄 **Snow Plow:** Give him a spoon (plow) and bowl of cereal. He has to 'clear the road' (eat) efficiently.",
-            school_title: "Practical Life: Snow Plowing",
-            school_link: "https://www.youtube.com/results?search_query=real+snow+plow+clearing+roads",
-            school_btn: "▶️ Watch Snow Plows",
-            bedtime: "🤫 **The Silence Game:** 'Sit still for 1 minute. What tiny sounds can we hear?' (Heater? Wind?)"
+            day: "Tuesday",
+            morning: { title: "Zipper Drill", text: "Zip jacket 3 times by himself before leaving." },
+            words: ["a", "t"],
+            isSound: true,
+            school: { title: "Story: The Mitten", link: "https://www.youtube.com/results?search_query=the+mitten+jan+brett+read+aloud", btn: "▶️ Read Aloud" },
+            bedtime: { title: "Mitten Act-Out", text: "Hide a bear under his blanket. 'Is there room?'" }
           },
           {
-            day: "FRIDAY",
-            morning: "🧦 **Sock Match:** Throw 4 socks on the floor. 'Match the pairs before I count to 10!'",
-            school_title: "Science: Sink or Float",
-            school_link: "https://www.youtube.com/results?search_query=sink+or+float+experiment+for+kids",
-            school_btn: "▶️ Watch Experiment",
-            bedtime: "☕ **Warmth:** Montessori Sensorial. Hold a warm mug of milk. Feel the heat transfer to your hands."
+            day: "Wednesday",
+            morning: { title: "Snow Plow", text: "Use a spoon (plow) to clear the cereal bowl road." },
+            words: ["c", "p"],
+            isSound: true,
+            school: { title: "Work: Snow Plows", link: "https://www.youtube.com/results?search_query=real+snow+plow+clearing+roads", btn: "▶️ Watch Plows" },
+            bedtime: { title: "Silence Game", text: "Sit still for 1 min. What tiny sounds can we hear?" }
+          },
+          {
+            day: "Thursday",
+            morning: { title: "Laundry Sort", text: "Match 2 pairs of socks before dad counts to 10." },
+            words: ["r", "f"],
+            isSound: true,
+            school: { title: "Math: Sorting", link: "https://www.toytheater.com/category/math-games/pattern", btn: "🎮 Sorting Game", isGame: true },
+            bedtime: { title: "Soft vs. Hard", text: "Feel object in pillowcase. Hard (ice) or soft (snow)?" }
+          },
+          {
+            day: "Friday",
+            morning: { title: "Sink or Float", text: "Drop one cheerio in milk. Will it sink?" },
+            words: ["i", "n"],
+            isSound: true,
+            school: { title: "Science: Buoyancy", link: "https://www.youtube.com/results?search_query=sink+or+float+experiment+for+kids", btn: "▶️ Experiment Video" },
+            bedtime: { title: "Warm Hands", text: "Hold warm mug. Feel heat transfer (Thermic sense)." }
           }
         ]
       }
     };
 
-    // --- RENDER LOGIC ---
     function render(profile) {
-      // Toggle Buttons
       document.getElementById('btn-claire').className = `toggle-btn ${profile === 'claire' ? 'active' : ''}`;
       document.getElementById('btn-eric').className = `toggle-btn ${profile === 'eric' ? 'active' : ''}`;
 
@@ -164,37 +183,51 @@
       let html = '';
 
       p.schedule.forEach(item => {
-        // Dynamic Button Class (Green for games, Blue for video)
-        const btnClass = item.is_game ? "action-btn game-btn" : "action-btn";
+        const btnClass = item.school.isGame ? "btn-link btn-game" : "btn-link";
+        
+        // Generate Word/Sound Cards
+        const wordLabel = item.isSound ? "Sound of the Day" : "Sight Words";
+        const cardClass = item.isSound ? "flashcard sound-card" : "flashcard";
+        const wordsHtml = item.words.map(w => `<span class="${cardClass}">${w}</span>`).join("");
 
         html += `
-          <div class="card">
-            <div class="day-header">
-              <span>${item.day}</span>
-            </div>
+          <div class="day-card">
+            <div class="day-title">${item.day}</div>
 
-            <div class="section-row">
-              <div class="icon-col">☀️</div>
-              <div class="text-col">
-                <span class="section-label label-morning">Morning Jumpstart</span>
-                <div class="content-text">${item.morning}</div>
+            <div class="activity-row">
+              <div class="icon-box">☀️</div>
+              <div class="content-box">
+                <span class="label morning-label">Morning Ritual</span>
+                <div class="title">${item.morning.title}</div>
+                <div class="desc">${item.morning.text}</div>
               </div>
             </div>
 
-            <div class="section-row">
-              <div class="icon-col">🎒</div>
-              <div class="text-col">
-                <span class="section-label label-school">Learning Activity</span>
-                <div class="content-text"><strong>${item.school_title}</strong></div>
-                <a href="${item.school_link}" target="_blank" class="${btnClass}">${item.school_btn}</a>
+            <div class="activity-row">
+              <div class="icon-box">👀</div>
+              <div class="content-box">
+                <span class="label word-label">${wordLabel}</span>
+                <div class="flashcard-container">
+                  ${wordsHtml}
+                </div>
               </div>
             </div>
 
-            <div class="section-row" style="margin-bottom:0;">
-              <div class="icon-col">🌙</div>
-              <div class="text-col">
-                <span class="section-label label-bedtime">Bedtime Connection</span>
-                <div class="content-text">${item.bedtime}</div>
+            <div class="activity-row" style="border-left: 4px solid #007aff;">
+              <div class="icon-box">🎒</div>
+              <div class="content-box">
+                <span class="label school-label">Learning</span>
+                <div class="title">${item.school.title}</div>
+                <a href="${item.school.link}" target="_blank" class="${btnClass}">${item.school.btn}</a>
+              </div>
+            </div>
+
+            <div class="activity-row">
+              <div class="icon-box">🌙</div>
+              <div class="content-box">
+                <span class="label bedtime-label">Bedtime Ritual</span>
+                <div class="title">${item.bedtime.title}</div>
+                <div class="desc">${item.bedtime.text}</div>
               </div>
             </div>
 
@@ -205,9 +238,7 @@
       document.getElementById('content').innerHTML = html;
     }
 
-    // Initialize with Claire
     render('claire');
   </script>
 </body>
 </html>
-
